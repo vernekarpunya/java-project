@@ -1,0 +1,75 @@
+import java.util.*;
+
+
+class Question {
+    private String questionText;
+    private List<String> options;
+    private int correctOption;
+
+    public Question(String questionText, List<String> options, int correctOption) {
+        this.questionText = questionText;
+        this.options = options;
+        this.correctOption = correctOption;
+    }
+
+    public boolean isCorrect(int chosenOption) {
+        return chosenOption == correctOption;
+    }
+
+    public void display() {
+        System.out.println(questionText);
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println((i + 1) + ". " + options.get(i));
+        }
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+}
+
+class Quiz {
+    private List<Question> questions;
+    private int score;
+
+    public Quiz(List<Question> questions) {
+        this.questions = questions;
+        this.score = 0;
+    }
+
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            System.out.println("Question " + (i + 1) + ":");
+            question.display();
+            System.out.print("Your answer (1-" + question.getOptions().size() + "): ");
+            int chosenOption = scanner.nextInt();
+
+            if (question.isCorrect(chosenOption)) {
+                System.out.println("Correct!\n");
+                score++;
+            } else {
+                System.out.println("Incorrect.\n");
+            }
+        }
+
+        System.out.println("Quiz completed!");
+        System.out.println("Your score: " + score + "/" + questions.size());
+    }
+}
+
+public class QuizApplication {
+    public static void main(String[] args) {
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("What is the capital of France?",
+                Arrays.asList("London", "Paris", "Berlin", "Madrid"), 2));
+        questions.add(new Question("Which planet is known as the Red Planet?",
+                Arrays.asList("Earth", "Mars", "Venus", "Jupiter"), 2));
+        // Add more questions here
+
+        Quiz quiz = new Quiz(questions);
+        quiz.start();
+    }
+}
